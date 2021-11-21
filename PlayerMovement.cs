@@ -11,16 +11,16 @@ public class PlayerMovement : MonoBehaviour
      */
 
     [Header("Public")]
-    public float mass;
-    public float gravityScale;
-    public float max_fall_speed;
-    public float max_move_speed_on_ground;
-    public float COF; // coeff of friction
-    public PhysicsMaterial2D player;
-    public PhysicsMaterial2D ground;
-    public Transform heightMeter;
-    public float jump_force;
-    public float minContactNormalY;
+    public float mass; // 2
+    public float gravityScale; // 9.5
+    public float max_fall_speed; // 25
+    public float max_move_speed_on_ground; // 10.57
+    public float COF; // coeff of friction 0.2
+    public PhysicsMaterial2D player; // attach to player
+    public PhysicsMaterial2D ground; // attach to ground
+    public Transform heightMeter; // just an indicator
+    public float jump_force; // 82.5
+    public float minContactNormalY; // 0.6
 
     [Header("Private")]
     [SerializeField] private bool canJump;
