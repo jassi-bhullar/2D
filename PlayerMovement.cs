@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // Set Scale to (0.9, 0.9, 0.9) in inspector
+    // becoz default scale of 1 does not work with
+    // tile size of 1 (collision problems)
+
     /* Linear drag will be calculated based on the
      * terminal velocity and gravity. Friction 
      * determines how fast player stops on the ground
