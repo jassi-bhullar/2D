@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public float COF; // coeff of friction 0.2
     public PhysicsMaterial2D player; // attach to player
     public PhysicsMaterial2D ground; // attach to ground
-    public Transform heightMeter; // just an indicator
+    public GameObject heightMeterObj;
     public float jump_force; // 82.5
     public float minContactNormalY; // 0.6
 
@@ -37,6 +36,10 @@ public class PlayerMovement : MonoBehaviour
 
     bool grounded;
     bool prevGrounded; // to determine Ground State Change
+
+    // Debug
+    private Vector3 initial_position;
+    Transform heightMeter; // just an indicator
 
     private void Start()
     {
@@ -57,6 +60,10 @@ public class PlayerMovement : MonoBehaviour
 
         prevGrounded = grounded = false;
         canJump = false;
+
+        // Debug
+        initial_position = transform.position;
+        heightMeter = Instantiate(heightMeterObj, Vector3.zero, Quaternion.identity).transform;
     }
 
     private void FixedUpdate()
@@ -69,6 +76,18 @@ public class PlayerMovement : MonoBehaviour
     {
         HandleJump();
         HandleGroundState();
+
+        // Debug
+        ResetPosition();
+    }
+
+    // Debug
+    private void ResetPosition()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            transform.position = initial_position;
+        }
     }
 
     private void HandleGroundState()
