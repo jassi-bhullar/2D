@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject heightMeterObj;
     public float jump_force; // 82.5
     public float minContactNormalY; // 0.6
+    public float totalTimeJumpPressedRemember;
+    public float totalTimeCanJumpRemember;
 
     [Header("Private")]
     [SerializeField] private bool canJump;
@@ -36,6 +38,9 @@ public class PlayerMovement : MonoBehaviour
 
     bool grounded;
     bool prevGrounded; // to determine Ground State Change
+
+    float timeJumpPressedRemember;
+    float timeCanJumpRemember;
 
     // Debug
     private Vector3 initial_position;
@@ -61,6 +66,9 @@ public class PlayerMovement : MonoBehaviour
         prevGrounded = grounded = false;
         canJump = false;
 
+        timeJumpPressedRemember = 0;
+        timeCanJumpRemember = 0;
+
         // Debug
         initial_position = transform.position;
         heightMeter = Instantiate(heightMeterObj, Vector3.zero, Quaternion.identity).transform;
@@ -84,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
     // Debug
     private void ResetPosition()
     {
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             transform.position = initial_position;
         }
@@ -121,8 +129,28 @@ public class PlayerMovement : MonoBehaviour
     private void HandleJump()
     {
         // Jump (Height)
-        if (Input.GetButtonDown("Jump") && canJump)
+        timeJumpPressedRemember -= Time.deltaTime;
+        if (Input.GetButtonDown("Jump"))
         {
+            timeJumpPressedRemember = totalTimeJumpPressedRemember;
+        }
+
+        timeCanJumpRemember -= Time.deltaTime;
+        if(canJump)
+        {
+            timeCanJumpRemember = totalTimeCanJumpRemember;
+        }
+
+        if(timeJumpPressedRemember > 0 && timeCanJumpRemember > 0)
+        {
+            timeJumpPressedRemember = 0;
+            timeCanJumpRemember = 0;
+
+            // **** BUG BUG BUG ****
+            // becoz of timeCanJumpRemember, Player can jump in the air
+            // hence we need to set the velocity Y = zero, BUT, I don't
+            // want to change the velocity directly. Hmmm.. What to do?
+
             _rb.AddForce(Vector2.up * jump_force, ForceMode2D.Impulse);
 
             heightMeter.position = transform.position + 0.5f * transform.localScale.y * Vector3.down;
