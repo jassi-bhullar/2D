@@ -24,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject heightMeterObj;
     public float jump_force; // 82.5
     public float minContactNormalY; // 0.6
-    public float totalTimeJumpPressedRemember;
-    public float totalTimeCanJumpRemember;
+    public float totalTimeJumpPressedRemember; // 0.14
+    public float totalTimeCanJumpRemember; // 0.05, grounded, BUG-gy (find out below)
 
     [Header("Private")]
     [SerializeField] private bool canJump;
@@ -136,12 +136,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         timeCanJumpRemember -= Time.deltaTime;
-        if(canJump)
+        if (canJump)
         {
             timeCanJumpRemember = totalTimeCanJumpRemember;
         }
 
-        if(timeJumpPressedRemember > 0 && timeCanJumpRemember > 0)
+        if (timeJumpPressedRemember > 0 && timeCanJumpRemember > 0)
         {
             timeJumpPressedRemember = 0;
             timeCanJumpRemember = 0;
