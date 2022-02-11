@@ -150,7 +150,8 @@ public class PlayerMovement : MonoBehaviour
             // becoz of timeCanJumpRemember, Player can jump in the air
             // hence we need to set the velocity Y = zero, BUT, I don't
             // want to change the velocity directly. Hmmm.. What to do?
-
+            // Oh, well.....
+            _rb.velocity = new Vector2(_rb.velocity.x, 0);
             _rb.AddForce(Vector2.up * jump_force, ForceMode2D.Impulse);
 
             heightMeter.position = transform.position + 0.5f * transform.localScale.y * Vector3.down;
