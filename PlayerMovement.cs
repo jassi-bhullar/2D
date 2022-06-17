@@ -31,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool canJump;
 
     Rigidbody2D _rb;
+    private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
 
     float gravityGlobal;
     float total_force; // based on max move speed and linear drag
@@ -49,6 +51,8 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
 
         player.friction = COF;
         ground.friction = COF;
@@ -78,6 +82,13 @@ public class PlayerMovement : MonoBehaviour
     {
         float move = Input.GetAxisRaw("Horizontal");
         _rb.AddForce(move * move_force * Vector3.right, ForceMode2D.Force);
+
+        // Animation
+        Vector2 vel = _rb.velocity;
+        _animator.SetFloat("velocityX", Mathf.Abs(vel.x));
+        if (vel.x < -0.05f) _spriteRenderer.flipX = true;
+        else if (vel.x > 0.05f) _spriteRenderer.flipX = false;
+        _animator.SetFloat("velocityY", vel.y);
     }
 
     private void Update()
